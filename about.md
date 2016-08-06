@@ -27,8 +27,8 @@ I am currently working as a <b>Platform Reliability Engineer</b> at <a href="htt
 <hr/>
 <br/>
 <span class="contacticon center">
-	<a href="mailto:hi@jelmer.is"><i class="fa fa-envelope-square"></i></a>
+	<a href="mailto:hi@siphoc.com"><i class="fa fa-envelope-square"></i></a>
 	<a href="https://github.com/jelmersnoeck" target="_blank"><i class="fa fa-github-square"></i></a>
-	<a href="https://twitter.com/jelmersnoeck" target="_blank"><i class="fa fa-twitter-square"></i></a>
 	<a href="https://instagram.com/jelmersnoeck" target="_blank"><i class="fa fa-instagram"></i></a>
+	<a href="https://twitter.com/jelmersnoeck" target="_blank"><i class="fa fa-twitter-square"></i></a>
 </span>
