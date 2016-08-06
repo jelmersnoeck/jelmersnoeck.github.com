@@ -55,7 +55,7 @@ By putting it on S3, we have a URL available. Instead of having the Render Servi
 
 ![Imagery Data unblocking](/img/satellite-03.png)
 
-By moving this dependency out of the Render Service, we've ensured that the Render Service can do more work. Instead of having to wait 3 seconds like before, it can now serve it's request within 200ms. This means that it has 2.8s to do other requests.
+By moving this dependency out of the Render Service, we've ensured that the Render Service can do more work. Instead of having to wait 3 seconds like before, it can now serve it's request within 200ms. This means it can do 15 requests instead of one.
 
 ### Measuring
 
