@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Scientific Experiments
+title: Scientific Experiments with Go
 date: 2016-08-08 18:58:13
-description: Evaluate and analyse new code paths without interfering with your users' experience.
+description: Evaluate and analyse new code paths in Go without interfering with your users' experience.
 ---
 
 Back in February, [GitHub officialy released](http://githubengineering.com/scientist/) Scientist. [Scientist](https://github.com/github/scientist) is a Ruby library for carefully refactoring critical paths.
