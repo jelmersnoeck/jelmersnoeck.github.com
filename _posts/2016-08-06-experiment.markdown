@@ -46,3 +46,7 @@ To run an experiment, you need to pass in a `context.Context` type (which can be
 **Performance**
 
 Although all the experiments run at the same time (with goroutines), it could be that new tests introduce a performance degradation. New tests should be rolled out slowly and monitored closely. Using the `Config` `Percentage` option is a good first step for this.
+
+#### Future
+
+There is currently nothing more on the roadmap development wise, but feedback is always welcome! Have a look at the [contribution guidelines](https://github.com/jelmersnoeck/experiment/blob/master/CONTRIBUTING.md) if you're thinking of helping out. And thanks for that!
