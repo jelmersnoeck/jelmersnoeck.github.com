@@ -25,7 +25,7 @@ This is great as it means that you can test your newly refactored code with real
 
 ### Experiment
 
-This is all great when you're writing Ruby applicaitons. But, unlike a year and a half ago where I was actually writing Ruby applications, I am not anymore. I am currently doing the majority of my work in [Go](https://golang.org/).
+This is all great when you're writing Ruby applications. But, unlike a year and a half ago where I was actually writing Ruby applications, I am not anymore. I am currently doing the majority of my work in [Go](https://golang.org/).
 
 About 4 months ago, I started porting [GitHub's Scientist](https://github.com/github/scientist) to Go. The main reason behind this was learn some new concepts and have a little side project. I wanted to have some metrics for a test that I ran in a development environment so I put together the initial version of [Experiment](https://github.com/jelmersnoeck/experiment).
 
