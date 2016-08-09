@@ -2,7 +2,7 @@
 title: Jelmer Snoeck
 email: jelmer@siphoc.com
 description: > # this means to ignore newlines until "baseurl:"
-  A simple, whitespace, helvetica based portfolio theme.
+  Projects and thoughts from Jelmer Snoeck, Platform Engineer.
 baseurl:
 url: https://jelmersnoeck.com
 twitter_username: jelmersnoeck
