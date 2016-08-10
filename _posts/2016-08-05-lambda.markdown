@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Scaling with AWS Lambda
-date: 2016-08-05 20:35:04
+date: 2016-08-10 20:35:04
 description: Scale your applications with AWS Lambda without having to think about it. This is a case study from a migration done at Lost My Name.
 ---
 At [Lost My Name](https://www.lostmy.name/) I'm responsible for the reliability and performance of the platform. This platform is the core of the business as it enables the creatives to publish their work. This work is what makes Lost My Name's products so personal, magical and popular.
