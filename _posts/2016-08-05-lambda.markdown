@@ -4,58 +4,58 @@ title: Scaling with AWS Lambda
 date: 2016-08-05 20:35:04
 description: Scale your applications with AWS Lambda without having to think about it. This is a case study from a migration done at Lost My Name.
 ---
-At [Lost My Name](https://www.lostmy.name/) I'm responsible for the reliability and performance of the platform. This platform is the core of the business as it enables the creatives to publish their work. This work is what makes Lost My Name's products so magical and popular.
+At [Lost My Name](https://www.lostmy.name/) I'm responsible for the reliability and performance of the platform. This platform is the core of the business as it enables the creatives to publish their work. This work is what makes Lost My Name's products so personal, magical and popular.
 
-As of writing, the team is preparing for another holiday season. This will be my second time going through this period at Lost My Name after been through it twice at [Boomf](https://boomf.com/). The holiday season at a seasonal company is unlike anything else. We do more sales in 3 months than the rest of the year combined.
+As of writing, my team is preparing for another holiday season. This will be my second time going through this period at Lost My Name after been through it twice at [Boomf](https://boomf.com/). The holiday season at a seasonal company is unlike anything else. We do more sales in 3 months than we do in the rest of the year combined.
 
-Increased sales means increased prints we need to deliver to our printhouses. Every single one of these prints goes though the platform to generate the personalised content at high resolution. Increased sales also means that the platform needs to render more previews.
+Increased sales means increased prints we need to deliver to our printhouses. Every single one of these prints goes though the platform to generate the personalised content at high resolution. Increased sales also means that the platform needs to render more personalised previews for people visiting the website.
 
 In this blog post, I'll talk about a specific piece of one of our books, [The Incredible Intergalactic Journey Home](https://www.lostmy.name/personalized-products/the-journey-home-book).
 
-### The current situation
+### The starting situation
 
-For one of the spreads in the book (which are in essence 2 pages next to each other) - we request your address. We then generate a page which consists of satellite imagery data to show kids their house and the area around their house. To do this, we use the [Bing Imagery API](https://msdn.microsoft.com/en-us/library/ff701721.aspx).
+For one of the spreads in the book (which are in essence 2 pages next to each other) - we request your address. We then use your address' coordinates and personalise the book by adding images from the surrounding area.
 
-To generate one page at print quality, we need to compose 4 Bing images at maximum resolution (2000x1500px). To have consistency - and some other non relevant reasons - between preview and print, we generate the same print quality image for the preview which we then resize before serving it to the user.
+To do this, we need to compose several high resolution images which come from external APIs. This is the same for both print and preview as we can only retrieve one size of the image through the API.
 
-This means that for every user that requests a book preview, we need to download 8 (1 spread, 2 pages) images, stitch them together and resize the image afterwards. All this work is quite CPU intensive and can't be cached (every request is unique due to the specific coordinates).
+This means that for every user that requests a book preview, we need to download several images, stitch them together and resize the high resolution image afterwards. All this work is quite CPU intensive and can't be cached (every request is unique due to the specific coordinates).
 
-Illustrated below is the current state of the platform (simplified).
+Illustrated below is the starting state of the platform (simplified).
 
-![Imagery Data](/img/satellite-01.png)
+![Image Data](/img/satellite-01.png)
 
 ### The problem
 With the above architecture, we are able to serve roughly 2 books per second consistently without errors on [AWS EC2](https://aws.amazon.com/ec2/) t2.medium boxes. Crank up the concurrency and we see availability drop. High availability is crucial to us as we've seen that our preview drives conversion rates. 2 concurrent requests is not the traffic we want to serve. We want more, a lot more.
 
-As mentioned before, we're preparing for Q4 where our sales increase exponentially. To scale this, we would need a lot of boxes (we've done tests, changing to bigger boxes doesn't gain us that much more performance).
+As mentioned before, we're preparing for Q4 where our sales increase exponentially. To scale this, we would need a lot of boxes.
 
-As you can see in the diagram above, this is also blocking our main Render Service. This Render Service is also used for other pages in the book that are fast (~120ms). We've noticed that when combining these requests, the other pages suffer from this as well.
+As you can see in the diagram above, this is also blocking our main `Render Service`. This `Render Service` is also used for other pages in the book that are fast (~120ms). We've noticed that when combining these requests, the other pages suffer from this as well.
 
 ### The solution
 
-The solution to this comes in 2 parts. First, we need a way to easily scale these Render Services when demand is high. The second one is unblocking the main Render Service so it's not sitting idle waiting for external work to be done whilst it could be doing other, useful work.
+The solution to this comes in 2 parts. First, we need a way to easily scale these `Image Services` when demand is high. The second one is unblocking the main `Render Service` so it's not sitting idle waiting for external work to be done whilst it could be doing other, more useful work.
 
-From monitoring, we know that the `Imagery Service` hits its maximum CPU. We also know this is purely because of decoding the bing images and encoding the end result again. Doing requests to external endpoints isn't resource intensive.
+From monitoring, we know that the `Image Service` hits its maximum CPU. We also know this is purely because of decoding the images and encoding the end result again. Doing requests to external endpoints isn't resource intensive, just time consuming.
 
 #### Problem 1: scaling
 
-This is where Lambda comes into play. Instead of doing the heavy work in our service on a single box, we set up an [AWS API Gateway](https://aws.amazon.com/api-gateway/) which delegates its requests to a [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/welcome.html) function. This Lambda function does all the heavy lifting which means that the `Imagery Service` doesn't need that much power anymore.
+This is where Lambda comes into play. Instead of doing the heavy work in our service on a single box, we set up an [AWS API Gateway](https://aws.amazon.com/api-gateway/) which delegates its requests to a [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/welcome.html) function. This Lambda function does all the heavy lifting which means that the `Image Service` doesn't need that much power anymore.
 
-There is one caveat though. Since we can't send binary data through the API Gateway, we can't serve the image directly from the Lambda function. To bypass this, we upload the image to [AWS S3](https://aws.amazon.com/s3/) and return that URL, which we then download again in the Render Service.
+There is one caveat though. Since we can't send binary data through the API Gateway, we can't serve the image directly from the Lambda function. To bypass this, we upload the image to [AWS S3](https://aws.amazon.com/s3/) and return that URL, which we then download again in the `Render Service`.
 
-![Imagery Data with Lambda](/img/satellite-02.png)
+![Image Data with Lambda](/img/satellite-02.png)
 
 Issue one is solved! We accidentally managed to throttle our API Gateway by requesting 80 generated images per second. But the idea worked and we could scale it without having to worry about it.
 
 #### Problem 2: unblocking
 
-The solution to this is actually relatively simple. Since we send a "Definition File" to our Render Service to say how the book is laid out, we could adjust this file before we actually send it off. This is an additional reason we didn't put the binary data in the JSON response as a return value from the Lambda functions - which is a known workaround for not being able to serve binary data from the API Gateway.
+The solution to this is actually relatively simple. Since we send a "Definition File" to our `Render Service` to say how the book is laid out, we could adjust this file before we actually send it off. This is an additional reason we didn't put the binary data in the JSON response as a return value from the Lambda functions - which is a known workaround for not being able to serve binary data from the API Gateway.
 
-By putting it on S3, we have a URL available. Instead of having the Render Service request that URL from the Satellite Service, we should do this beforehand and modify our definition file with it.
+By putting it on S3, we have a URL available. Instead of having the `Render Service` request that URL from the `Image Service`, we should do this beforehand and modify our definition file with it.
 
-![Imagery Data unblocking](/img/satellite-03.png)
+![Image Data unblocking](/img/satellite-03.png)
 
-By moving this dependency out of the Render Service, we've ensured that the Render Service can do more work. Instead of having to wait 3 seconds like before, it can now serve its request within 200ms. This means it can do 15 requests instead of one.
+By moving this dependency out of the `Render Service`, we've ensured that the `Render Service` can do more work. Instead of having to wait 3 seconds like before, it can now serve its request within 200ms. This means it can do 15 requests instead of one.
 
 ### Measuring
 
