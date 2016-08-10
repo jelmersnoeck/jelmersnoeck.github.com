@@ -6,9 +6,9 @@ description: Scale your applications with AWS Lambda without having to think abo
 ---
 At [Lost My Name](https://www.lostmy.name/) I'm responsible for the reliability and performance of the platform. This platform is the core of the business as it enables the creatives to publish their work. This work is what makes Lost My Name's products so magical and popular.
 
-As of writing, the team is preparing for another another holiday season. This will be my second time going through this period at Lost My Name after been through it twice at [Boomf](https://boomf.com/). The holiday season at a seasonal company is unlike anything else. We do more sales in 3 months than the rest of the year combined.
+As of writing, the team is preparing for another holiday season. This will be my second time going through this period at Lost My Name after been through it twice at [Boomf](https://boomf.com/). The holiday season at a seasonal company is unlike anything else. We do more sales in 3 months than the rest of the year combined.
 
-Increased sales means increased prints we need to deliver to our printhouses. Every single one of these prints goes though the platform to generate the personalised content at high resolution. Increased sales also means that the platfor needs to render more previews.
+Increased sales means increased prints we need to deliver to our printhouses. Every single one of these prints goes though the platform to generate the personalised content at high resolution. Increased sales also means that the platform needs to render more previews.
 
 In this blog post, I'll talk about a specific piece of one of our books, [The Incredible Intergalactic Journey Home](https://www.lostmy.name/personalized-products/the-journey-home-book).
 
