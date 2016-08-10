@@ -59,6 +59,6 @@ By moving this dependency out of the `Render Service`, we've ensured that the `R
 
 ### Measuring
 
-This is all fine, but how do we know this works? We didn't want to push this into production without knowing what the impact was. See if we have any performance issues (after all, we need to do an upload and download to S3 now) and if error rates improve. To do this, we've hooked this up with my [Experiment package](/2016/08/05/experiment.html) and monitored its behaviour closely.
+This is all fine, but how do we know this works? We didn't want to push this into production without knowing what the impact was. See if we have any performance issues (after all, we need to do an upload and download to S3 now) and if error rates improve. To do this, we've hooked this up with my [Experiment package](/2016/08/08/experiment.html) and monitored its behaviour closely.
 
 We saw our response time go up slightly but this was well worth it for the increased availability(+12.5%, meeting our internal SLA) and scalability.
