@@ -95,12 +95,39 @@ Off-screen When I&#39;m not working, you&#39;ll most likely find me running, bik
     </item>
     
     <item>
+      <title>Manifold Kubernetes Operator</title>
+      <link>/projects/manifold-kubernetes-operator/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/manifold-kubernetes-operator/</guid>
+      <description>A Kubernetes Operator to manage secrets stored in Manifold. This enables your developers to store their credentials securely with Manifold, and load them accordingly in your Kubernetes clusters.</description>
+    </item>
+    
+    <item>
+      <title>Terraform Manifold</title>
+      <link>/projects/terraform-manifold/</link>
+      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/terraform-manifold/</guid>
+      <description>A Terraform provider to manage resources on Manifold, allowing you to store and read credentials through Terraform.</description>
+    </item>
+    
+    <item>
       <title>Let&#39;s talk open source software || Ladies Of Code Glasgow</title>
       <link>/talks/2016/11/lets-talk-open-source-software-ladies-of-code-glasgow/</link>
       <pubDate>Tue, 08 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>/talks/2016/11/lets-talk-open-source-software-ladies-of-code-glasgow/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Terraform Aiven</title>
+      <link>/projects/terraform-aiven/</link>
+      <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/terraform-aiven/</guid>
+      <description>A Terraform provider to provision resources with Aiven. This project has been officially handed off to the Aiven team.</description>
     </item>
     
     <item>
@@ -119,6 +146,15 @@ Off-screen When I&#39;m not working, you&#39;ll most likely find me running, bik
       
       <guid>/articles/2015/08/getting-started-with-elasticsearch-filters-and-aggregations/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Experiment</title>
+      <link>/projects/experiment/</link>
+      <pubDate>Thu, 01 Jan 2015 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/experiment/</guid>
+      <description>A Go package for experimenting with and evaluating new codepaths without impacting your end users.</description>
     </item>
     
     <item>
