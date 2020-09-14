@@ -145,7 +145,10 @@ Off-screen When I&#39;m not working, you&#39;ll most likely find me running, bik
       <pubDate>Mon, 31 Aug 2015 00:00:00 +0000</pubDate>
       
       <guid>/articles/2015/08/getting-started-with-elasticsearch-filters-and-aggregations/</guid>
-      <description></description>
+      <description>What is Elasticsearch?
+Elasticsearch is Apache Lucene on steroids. It uses Lucene at its core for full-text indexing and search. ES adds distribution, near real-time search, high availability, a RESTful interface and many more features to it.
+It basically makes out of the box usage of Apache Lucene easy.
+Why use elasticsearch? With Lucene at the core of ES, it’s perfect for text-based search. Going from blog posts to addresses to social media data to logs.</description>
     </item>
     
     <item>
