@@ -17,7 +17,9 @@
       <pubDate>Thu, 28 Jun 2018 00:00:00 +0000</pubDate>
       
       <guid>/articles/2018/06/boxer-an-encryption-story/</guid>
-      <description></description>
+      <description>This article was originally published on the Manifold blog
+At Manifold, we take security seriously. We store sensitive information, credentials, so we’ve architected Manifold from the ground up with an encryption system in place. We called this system Boxer.
+In this blog post we’ll go over some of the details on how we’ve implemented this. By doing so, we hope we can clarify our data safety vision, and introduce some security patterns for you to consider in your own designs.</description>
     </item>
     
     <item>

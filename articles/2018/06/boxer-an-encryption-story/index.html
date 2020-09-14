@@ -5,7 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="Jelmer Snoeck ">
-<meta name="description" content="" />
+<meta name="description" content="This article was originally published on the Manifold blog
+At Manifold, we take security seriously. We store sensitive information, credentials, so we’ve architected Manifold from the ground up with an encryption system in place. We called this system Boxer.
+In this blog post we’ll go over some of the details on how we’ve implemented this. By doing so, we hope we can clarify our data safety vision, and introduce some security patterns for you to consider in your own designs." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -33,17 +35,21 @@
 
 
 <meta itemprop="name" content="Boxer: an encryption story">
-<meta itemprop="description" content="">
+<meta itemprop="description" content="This article was originally published on the Manifold blog
+At Manifold, we take security seriously. We store sensitive information, credentials, so we’ve architected Manifold from the ground up with an encryption system in place. We called this system Boxer.
+In this blog post we’ll go over some of the details on how we’ve implemented this. By doing so, we hope we can clarify our data safety vision, and introduce some security patterns for you to consider in your own designs.">
 <meta itemprop="datePublished" content="2018-06-28T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2018-06-28T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="0">
+<meta itemprop="wordCount" content="923">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Boxer: an encryption story"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="This article was originally published on the Manifold blog
+At Manifold, we take security seriously. We store sensitive information, credentials, so we’ve architected Manifold from the ground up with an encryption system in place. We called this system Boxer.
+In this blog post we’ll go over some of the details on how we’ve implemented this. By doing so, we hope we can clarify our data safety vision, and introduce some security patterns for you to consider in your own designs."/>
 
 
 
@@ -124,7 +130,38 @@
             
 
             <div class="post-content">
-                
+                <p>This article was originally published on <a href="https://www.manifold.co/blog/boxer-an-encryption-story-fadcc9099ba6">the Manifold blog</a></p>
+<p><img src="/static/images/boxer-000.png" alt="header"></p>
+<p>At Manifold, we take security seriously. We store sensitive information, credentials, so we’ve architected Manifold from the ground up with an encryption system in place. We called this system Boxer.</p>
+<p>In this blog post we’ll go over some of the details on how we’ve implemented this. By doing so, we hope we can clarify our data safety vision, and introduce some security patterns for you to consider in your own designs.</p>
+<h2 id="tldr-the-why-and-how">TL;DR: the why and how</h2>
+<p>At the start of the Boxer project, we wanted to ensure that only the credential’s owners could decrypt their own data. To achieve this, we need to have a separate encryption key per owner.</p>
+<p>We encrypt the owner specific key with a region master key, which we then store in our database. By doing this, we can also replicate our data across regions — and cloud providers — with ease. We only have to re-encrypt the owner’s keys; the data remains the same.</p>
+<p><img src="/static/images/boxer-001.png" alt="2 separate database layers, each with their own encryption key. A master key per region."><em>2 separate database layers, each with their own encryption key. A master key per region.</em></p>
+<h2 id="encryption-layers">Encryption Layers</h2>
+<p>As mentioned before, we have multiple layers of encryption. In this section we’ll take a deep dive into each of these layers.</p>
+<p><strong>Data Layer</strong></p>
+<p>At the core, we need to encrypt data with a given key. To do this, we use <a href="https://godoc.org/golang.org/x/crypto/nacl/secretbox">SecretBox</a>. SecretBox is a symmetric-key algorithm, which allows us to use the same key for encryption and decryption. This means that we can use our generated master key to encrypt our data to store it, but also decrypt it when reading it.</p>
+<p>The Data Layer is where we actually store the encrypted credentials. We can now replicate this layer across different regions or cloud providers. Due to our separate Principal Layer, we don’t have to worry about re-encrypting the data.</p>
+<p>We use this algorithm — albeit abstracted — for all the sensitive data we want to encrypt. SecretBox is optimized for small messages, which makes it ideal for our messages: very short strings.</p>
+<p><strong>Principal Layer</strong></p>
+<p>Once we have our data securely stored, we also need to think about storing the master key securely. As we mentioned before, we wanted to make sure that no one could decrypt anyone else’s secrets in case of a breach.</p>
+<p>To do this, we’ve created a Principal Layer. This layer looks at who the owner of a credential is, either a team or user. Based on this owner, we then create a new random token which we use to encrypt the credentials in the Data Layer. We then use <a href="https://en.wikipedia.org/wiki/Role-based_access_control">RBAC</a> to determine if a user has access to this resource or not. You need to be a member of a team <em>and</em> have the right permissions in order to read credentials.</p>
+<p>By doing this, we ensure that in case of <a href="https://en.wikipedia.org/wiki/SQL_injection">SQLi</a> a user can’t get any other user’s information out.</p>
+<p><strong>Cloud Layer</strong></p>
+<p>Our top layer is our Cloud Layer. This is a service each cloud provider provides. In our case, this is <a href="https://aws.amazon.com/kms/">AWS KMS</a> but it could be any Key Management Service.</p>
+<p>We use this encryption layer as the master key to our Principal Layer. This ensures that when there is a database breach (through SQLi for example), intruders don’t have access to our user data. They would still need access to our KMS keys.</p>
+<p>KMS keys are usually limited to a specific region. This means we’d have to re-encrypt our data per region. By separating the Data Layer from the regional master key — KMS, we can leave the data as is. Now we only have to re-encrypt the Principal Layer keys, and we can use the decrypted version to read our data.</p>
+<h2 id="hooking-it-all-up">Hooking it all up</h2>
+<p>To do everything described earlier, we made an abstraction layer on top of our database. First of all, this makes it easier to do all the encrypting and decrypting. But more important, this ensures that we actually encrypt our data, and that we do it correctly.</p>
+<p><img src="/static/images/boxer-002.png" alt="When a request comes in, it gets verified with RBAC. Boxer then takes care of determining the correct OwnerID and decrypting the data accordingly."><em>When a request comes in, it gets verified with RBAC. Boxer then takes care of determining the correct OwnerID and decrypting the data accordingly.</em></p>
+<p><strong>Interfaces</strong></p>
+<p>At Manifold, we’re big on using Go. In a <a href="https://blog.manifold.co/how-go-interfaces-can-facilitate-switching-external-services-619cc478e20a">previous post</a>, Luiz explains how you can use interfaces to switch between services. We heavily rely on Go Interfaces for abstracting our encryption. This enables our developers to use this setup with ease and always ensures the data gets encrypted.</p>
+<p>We have a Querier interface which defines methods like <code>Get</code>, <code>Create</code>, <code>Update</code> and <code>QueryOne</code>. Our default implementation has a simple mapping to our Database engine (PostgreSQL). For Boxer, we’ve implemented a layer on top of this implementation. This automatically takes care of encrypting and decrypting. This makes it accessible to our developers and ensures data safety.</p>
+<p>For security reasons, when you want to use this Querier, you’ll have to specify who the owner is that you’re querying for. We base this owner off the authenticated user. As mentioned before, this owner can only decrypt their own data since each owner gets their own key. This means that there is no option to decrypt someone else’s credentials.</p>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>Due to the sensitive nature of our data, we had to think about security from the start. We’ve implemented a 3 layer encryption setup which gives us several benefits. It protects users from SQL injections and data breaches. It also helps us scale our platform and allows us to serve data across regions. If you encounter similar design needs, we encourage you to consider the pattern.</p>
+
             </div>
         </article>
 
