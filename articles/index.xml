@@ -35,7 +35,9 @@
       <pubDate>Wed, 21 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>/articles/2018/03/migrating-to-kubernetes-with-zero-downtime-the-why-and-how/</guid>
-      <description></description>
+      <description>Originally posted on the Manifold blog
+We at Manifold always strive to get the most out of everything we do. For this reason, we continuously evaluate what we’ve done to see if it still holds up to our standards. A while back, we decided to take a deeper look at our infrastructure setup.
+In this blog post, we’ll look at the reasons why we moved to Kubernetes and the questions we asked ourselves.</description>
     </item>
     
     <item>
