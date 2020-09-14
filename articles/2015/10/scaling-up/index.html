@@ -140,7 +140,7 @@ This works when this is a steady level of extra traffic. When you have linear gr
 <h2 id="introducing-heroku-timed-scaler">Introducing Heroku Timed Scaler</h2>
 <p>I’ve had to do the previous before. A lot.</p>
 <p>Heroku has an API, a pretty good API. This API provides a way to scale up. That’s why I’ve built a tool — spoiler, there are similar tools out there — that takes a range of time slots with settings and a time frame to scale your application.</p>
-<p><img src="/scaling-up-000.png" alt="scaling-up"></p>
+<p><img src="/static/images/scaling-up-000.png" alt="scaling-up"></p>
 <p>You create a new slot which will then be queued to scale. You define the type of process you want to scale, the size you want to scale to and the quantity of dynos you want. Once the time slot is over, the application will scale back to the settings of your application just before it scaled up.</p>
 <p>The great thing about this compared to other services that do this? It’s <a href="https://github.com/jelmersnoeck/heroku-timed-scaler">open source</a>.</p>
 
