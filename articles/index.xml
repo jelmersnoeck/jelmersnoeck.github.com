@@ -44,7 +44,9 @@
       <pubDate>Wed, 28 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>/articles/2018/02/build-a-container-for-your-static-javascript-application/</guid>
-      <description></description>
+      <description>This article was originally posted on the Manifold blog
+In this blog post we’ll look at how you can build a production grade container for your static JavaScript application and how you can use a single container image for all your environments.
+To do this, we need to go over several steps. Here we’ll look at how to prepare your application for production inside a container, make it possible to run this across multiple environments and actually run the container.</description>
     </item>
     
     <item>
