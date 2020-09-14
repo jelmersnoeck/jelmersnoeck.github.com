@@ -26,7 +26,10 @@
       <pubDate>Thu, 26 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/articles/2018/04/deploying-rock-solid-applications-with-kubernetes/</guid>
-      <description></description>
+      <description>This article was originally published on the Manifold blog
+In a previous blog post, we described how we set up our Kubernetes cluster. We also went over the initial configuration to support our applications. Now that we have our cluster up and running, it’s time to start deploying these applications.
+In this blog post, we’ll look at some changes we made at the application level.
+Health checks Migrating to Kubernetes gave us opportunity to set up liveness and readiness probes.</description>
     </item>
     
     <item>
