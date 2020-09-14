@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Experiment</title>
+      <link>/projects/experiment/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/experiment/</guid>
+      <description>A Go package for experimenting with and evaluating new codepaths without impacting your end users.</description>
+    </item>
+    
+    <item>
       <title>Jelmer Snoeck</title>
       <link>/about/</link>
       <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
@@ -159,15 +168,6 @@ This works when this is a steady level of extra traffic. When you have linear gr
 Elasticsearch is Apache Lucene on steroids. It uses Lucene at its core for full-text indexing and search. ES adds distribution, near real-time search, high availability, a RESTful interface and many more features to it.
 It basically makes out of the box usage of Apache Lucene easy.
 Why use elasticsearch? With Lucene at the core of ES, it’s perfect for text-based search. Going from blog posts to addresses to social media data to logs.</description>
-    </item>
-    
-    <item>
-      <title>Experiment</title>
-      <link>/projects/experiment/</link>
-      <pubDate>Thu, 01 Jan 2015 00:00:00 +0000</pubDate>
-      
-      <guid>/projects/experiment/</guid>
-      <description>A Go package for experimenting with and evaluating new codepaths without impacting your end users.</description>
     </item>
     
     <item>
