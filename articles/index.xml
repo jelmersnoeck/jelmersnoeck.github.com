@@ -53,7 +53,8 @@
       <pubDate>Tue, 20 Oct 2015 00:00:00 +0000</pubDate>
       
       <guid>/articles/2015/10/scaling-up/</guid>
-      <description></description>
+      <description>You’ve heard about it, thought about it and probably executed it. You’ve scaled your application to deal with a new amount of users. Nowadays, with services like Heroku (which we’ll focus on here), this becomes relatively easy. Either by using a bigger dyno or adding more, you’re “fine”.
+This works when this is a steady level of extra traffic. When you have linear growth and no spikes. Often, this is not the case though.</description>
     </item>
     
     <item>

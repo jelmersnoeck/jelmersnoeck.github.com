@@ -5,7 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="Jelmer Snoeck ">
-<meta name="description" content="" />
+<meta name="description" content="You’ve heard about it, thought about it and probably executed it. You’ve scaled your application to deal with a new amount of users. Nowadays, with services like Heroku (which we’ll focus on here), this becomes relatively easy. Either by using a bigger dyno or adding more, you’re “fine”.
+This works when this is a steady level of extra traffic. When you have linear growth and no spikes. Often, this is not the case though." />
 <meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="" />
@@ -33,17 +34,19 @@
 
 
 <meta itemprop="name" content="Scaling up">
-<meta itemprop="description" content="">
+<meta itemprop="description" content="You’ve heard about it, thought about it and probably executed it. You’ve scaled your application to deal with a new amount of users. Nowadays, with services like Heroku (which we’ll focus on here), this becomes relatively easy. Either by using a bigger dyno or adding more, you’re “fine”.
+This works when this is a steady level of extra traffic. When you have linear growth and no spikes. Often, this is not the case though.">
 <meta itemprop="datePublished" content="2015-10-20T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2015-10-20T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="0">
+<meta itemprop="wordCount" content="480">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Scaling up"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="You’ve heard about it, thought about it and probably executed it. You’ve scaled your application to deal with a new amount of users. Nowadays, with services like Heroku (which we’ll focus on here), this becomes relatively easy. Either by using a bigger dyno or adding more, you’re “fine”.
+This works when this is a steady level of extra traffic. When you have linear growth and no spikes. Often, this is not the case though."/>
 
 
 
@@ -124,7 +127,23 @@
             
 
             <div class="post-content">
-                
+                <p>You’ve heard about it, thought about it and probably executed it. You’ve scaled your application to deal with a new amount of users. Nowadays, with services like Heroku (which we’ll focus on here), this becomes relatively easy. Either by using a bigger dyno or adding more, you’re “fine”.</p>
+<p>This works when this is a steady level of extra traffic. When you have linear growth and no spikes. Often, this is not the case though.</p>
+<h3 id="unexpected-scaling">Unexpected scaling</h3>
+<p>You might have had to deal with unexpected scaling. An article being posted on Hacker News for example, giving you a huge spike in visitors, something you didn’t foresee.</p>
+<p>Scaling this is hard, you don’t know when this will happen. You don’t know what the impact will be. There are addons on Heroku for this which will look at your application response time. If this starts to fall under a certain value, it will add more dynos.</p>
+<h3 id="timed-scaling">Timed scaling</h3>
+<p>Now imagine that you know when you will have an additional amount of traffic — like TV adverts — and you know roughly how much traffic you will have. For example, next week, you will have a peak in visitors at 3pm every day, which lasts about 30 minutes.</p>
+<p>Scaling this is relatively easy. You calculate how much capacity you need, go to your Heroku dashboard and scale up. That’s it, time to rest now.</p>
+<p>The problem with this is that for 23.5 hours each day you are paying for capacity you don’t need. The solution to this is straightforward. At 2:30pm every day, you go to your dashboard and scale up. At 4pm you go to your dashboard again and scale down. Great, works! Money saved, everyone happy!</p>
+<p>Now, what if this happens 3 times a day — every day. One of them at 2am which lasts 1h. This would mean waking up in the middle of the night, scaling up and not forgetting to scale down again. You could argue to do this upfront, but if you have this going on for 2 months, this might come in costly.</p>
+<h2 id="introducing-heroku-timed-scaler">Introducing Heroku Timed Scaler</h2>
+<p>I’ve had to do the previous before. A lot.</p>
+<p>Heroku has an API, a pretty good API. This API provides a way to scale up. That’s why I’ve built a tool — spoiler, there are similar tools out there — that takes a range of time slots with settings and a time frame to scale your application.</p>
+<p><img src="/static/scaling-up-000.png" alt="scaling-up"></p>
+<p>You create a new slot which will then be queued to scale. You define the type of process you want to scale, the size you want to scale to and the quantity of dynos you want. Once the time slot is over, the application will scale back to the settings of your application just before it scaled up.</p>
+<p>The great thing about this compared to other services that do this? It’s <a href="https://github.com/jelmersnoeck/heroku-timed-scaler">open source</a>.</p>
+
             </div>
         </article>
 
